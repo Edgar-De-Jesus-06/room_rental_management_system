@@ -26,9 +26,9 @@ use PDOException;
                 $stmt = $this->db->prepare("INSERT INTO users (full_name, email, password, role)
                                         VALUES (:full_name, :email, :password, :role)");
                 $stmt->bindValue(':full_name', $this->full_name, PDO::PARAM_STR);
-                $stmt->bindValue(':full_name', $this->full_name, PDO::PARAM_STR);
-                $stmt->bindValue(':full_name', $this->full_name, PDO::PARAM_STR);
-                $stmt->bindValue(':full_name', $this->full_name, PDO::PARAM_STR);
+                $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
+                $stmt->bindValue(':password', $this->password, PDO::PARAM_STR);
+                $stmt->bindValue(':role', $this->role, PDO::PARAM_STR);
                 return $stmt->execute();
 
             } catch(PDOException $err) {
