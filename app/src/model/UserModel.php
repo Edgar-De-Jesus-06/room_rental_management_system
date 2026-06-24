@@ -37,6 +37,16 @@ use PDOException;
 
         }
 
-        
+        public function Read_users_data() {
+            try {
+                $stmt = $this->db->prepare("SELECT full_name, email, role 
+                                            FROM users");
+                $stmt->execute();
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+
+            } catch(PDOException $err) {
+                echo "Error: " . $err->getMessage();
+            }
+        }
 
     }
