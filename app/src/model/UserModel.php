@@ -4,8 +4,8 @@
 
     require_once __DIR__ . "/../../../vendor/autoload.php";
 
-    use app\config\Database;
-    use PDO;
+use app\config\Database;
+use PDO;
 use PDOException;
 
     class UserModel extends Database {
@@ -47,6 +47,23 @@ use PDOException;
             } catch(PDOException $err) {
                 echo "Error: " . $err->getMessage();
             }
+        }
+
+        public function Update_user_data() {
+            try {
+                $stmt = $this->db->prepare("UPDATE users
+                                            SET full_name = ?, email = ?, role = ?
+                                            WHERE id = ?");
+                $stmt->execute([
+                    $this->full_name,
+                    $this->email,
+                    $this->role
+                ]);
+                return $stmt->rowCount();
+            } catch(PDOException $err) {
+                echo "Invalid Update: " . $err->getMessage();
+            }
+
         }
 
     }
