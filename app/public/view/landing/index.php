@@ -68,6 +68,35 @@
         </nav>
     </header>
 
+    <main>
+        
+        <div class="container-fluid p-5" style="background-color: #0f2573; min-height: 70vh;">
+            <div class="container mt-5">
+                <h6 class="fw-medium border border-light bg-light rounded-5 text-center p-1" style="color: #0f2573; width: 330px;">
+                    Now accepting new tenants for <?php echo date('F Y'); ?>
+                </h6>
+                <h1 class="text-light mt-4 mb-4" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 3.5rem;">
+                    Your Home Away<br>
+                    From Home.
+                </h1>
+                <p class="text-light fw-medium w-50">
+                    Affordable, well-managed rooms in a safe and comfortable boarding house. Bills, maintenance, and communication — all handled online.
+                </p>
+
+                <div class="container p-0 mt-4 d-flex align-content-center">
+                    <button type="button" class="btn btn-success fw-medium text-light rounded-4" style="width: 170px; height: 45px;" data-bs-toggle="modal" data-bs-target="#signIn">
+                        Tenant Sign In<i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                    
+                </div>
+                
+                <div class="container-fluid">
+
+                </div>
+            </div>
+        </div>
+
+    </main>
 
     <script>
 
