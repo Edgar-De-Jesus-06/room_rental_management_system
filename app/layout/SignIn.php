@@ -6,7 +6,7 @@
             <i class="bi bi-building rounded-3 p-1 fs-4 text-light" style="background-color: #0f2573;"></i>
             <div class="container">
                 <p class="fs-6 fw-bolder m-0" style="color: #0f2573;">Room Rental</p>
-                <p class="fs-6 text-secondary m-0" style="color: #0f2573;">Sing in to continue</p>
+                <p class="fs-6 text-secondary m-0" style="color: #0f2573;">Sign in to continue</p>
             </div>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -39,10 +39,9 @@
         </div>
       </div>
       <div class="modal-footer border-0">
-        <button type="button" class="btn fw-medium text-light w-100" style="background-color: #0f2573;">
+        <button class="btn fw-medium text-light w-100" style="background-color: #0f2573;" data-bs-toggle="modal" data-bs-target="#signIn">
             Sign In<i class="bi bi-arrow-right ms-2"></i>
         </button>
-
       </div>
     </div>
   </div>
