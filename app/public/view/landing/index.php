@@ -18,8 +18,25 @@
             scroll-behavior: smooth;
         }
 
-        
+        #tenant_sign_in, #admin_sign_in {
+            background-color: whitesmoke;
+            color: #0f2573;
+        }
 
+        #tenant_sign_in:hover, #admin_sign_in:hover {
+            background-color: #0f2573;
+            color: whitesmoke;
+            transition: .2s ease;
+        }
+
+        .nav-link {
+            color: gray;
+        }
+
+        .nav-link:hover {
+            color: #0f2573;
+            transition: .2s ease;
+        }
     </style>
 </head>
 <body>
