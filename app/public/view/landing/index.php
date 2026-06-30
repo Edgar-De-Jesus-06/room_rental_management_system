@@ -24,7 +24,7 @@
 </head>
 <body>
 
-    <?php require_once __DIR__ . "/../../../layout/SingIn.php"; ?>
+    <?php require_once __DIR__ . "/../../../layout/SignIn.php"; ?>
     
     <header>
         <nav class="navbar navbar-expand-lg p-3">
