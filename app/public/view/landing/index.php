@@ -117,6 +117,72 @@
             </div>
         </div>
 
+        <div class="container-fluid p-5" style="min-height: 60vh;" id="rooms">
+            <div class="container d-flex flex-column mb-4">
+                <p class="text-success m-0 fw-medium" style="font-family: 'Courier New', Courier, monospace;">
+                    Availability
+                </p>
+                <h1 class="text-dark fs-2 mt-1 mb-1" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                    Available Rooms
+                </h1>
+                <p class="text-secondary fs-6 fw-medium">
+                    Move in as early as next week. Utilities included in select units.
+                </p>
+            </div>
+            <div class="container">
+                
+            </div>
+        </div>
+
+        <div class="container-fluid p-5"  style="min-height: 60vh; background-color: #0f2573;" id="features">
+            <div class="container">
+                <p class="text-success m-0 fw-medium" style="font-family: 'Courier New', Courier, monospace;">
+                    Why Room Rental
+                </p>
+                <h1 class="text-light fs-2 mt-1 mb-1" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                    Everything Managed Online
+                </h1>
+                <p class="text-light fs-6 fw-medium w-50">
+                    No more knocking on doors for receipts or writing complaints on paper. Our system keeps you connected.
+                </p>
+            </div>
+            <div class="container mt-5 d-flex align-content-center justify-content-between">
+                <div class="card w-25 p-2 bg-light border border-secondary">
+                    <div class="card-body">
+                        <i class="bi bi-wallet text-success p-2 bg-success-subtle border border-success-subtle rounded-3 fs-5"></i>
+                        <h1 class="card-title text-dark mt-3 fs-5 fw-bold">
+                            Easy Online Billing
+                        </h1>
+                        <p class="card-text text-secondary fs-6 fw-light">
+                            View and track your monthly rent, water, and electricity bills all in one place. No more paper receipts.
+                        </p>
+                    </div>
+                </div>
+                <div class="card w-25 p-2 bg-light border border-secondary">
+                    <div class="card-body">
+                        <i class="bi bi-tools text-success p-2 bg-success-subtle border border-success-subtle rounded-3 fs-5"></i>
+                        <h1 class="card-title text-dark mt-3 fs-5 fw-bold">
+                            Submit Maintenance Requests
+                        </h1>
+                        <p class="card-text text-secondary fs-6 fw-light">
+                            Report any room or facility issues directly through the portal. Track status from Pending to Resolved.
+                        </p>
+                    </div>
+                </div>
+                <div class="card w-25 p-2 bg-light border border-secondary">
+                    <div class="card-body">
+                        <i class="bi bi-bell text-success p-2 bg-success-subtle border border-success-subtle rounded-3 fs-5"></i>
+                        <h1 class="card-title text-dark mt-3 fs-5 fw-bold">
+                            Smart Notifications
+                        </h1>
+                        <p class="card-text text-secondary fs-6 fw-light">
+                            Receive timely reminders for upcoming due dates and announcements from management.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <script>
