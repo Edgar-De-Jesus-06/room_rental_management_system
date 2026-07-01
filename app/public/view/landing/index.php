@@ -183,6 +183,65 @@
             </div>
         </div>
 
+        <div class="container-fluid p-5" style="min-height: 60vh;" id="contact">
+            <div class="container d-flex align-content-center justify-content-between">
+                <div class="container">
+                    <p class="text-success m-0 fw-medium" style="font-family: 'Courier New', Courier, monospace;">
+                        Get in Touch
+                    </p>
+                    <h1 class="text-dark fs-2 mt-1 mb-1" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                        Contact Us
+                    </h1>
+                    <p class="text-secondary fs-6 fw-medium">
+                        Interested in renting a room or have questions? Reach out to us and we will get back to you as soon as possible.
+                    </p>
+
+                    <div class="container p-0 mt-4">
+                        <p class="text-secondary fs-6 fw-medium mb-4">
+                            <i class="bi bi-geo-alt text-primary border border-secondary-subtle bg-secondary-subtle p-2 rounded-3 me-2"></i>
+                            Blk 3 Lot 32 P2 A3 Longos Malabon City
+                        </p>
+                        <p class="text-secondary fs-6 fw-medium mb-4">
+                            <i class="bi bi-telephone text-primary border border-secondary-subtle bg-secondary-subtle p-2 rounded-3 me-2"></i>
+                            +639673108067
+                        </p>
+                        <p class="text-secondary fs-6 fw-medium">
+                            <i class="bi bi-envelope text-primary border border-secondary-subtle bg-secondary-subtle p-2 rounded-3 me-2"></i>
+                            edgarb.dejesus@gmail.com
+                        </p>
+                    </div>
+                </div>
+                <div class="container border rounded-4 shadow-lg p-4 ms-5">
+                    <h1 class="text-dark fs-5 fw-medium">
+                        Send a Message
+                    </h1>
+                    <form action="" method="post">
+                        <div class="input-group mt-4 mb-3">
+                            <span class="input-group-text bg-light">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input type="text" class="form-control bg-light" placeholder="Your name" name="inquire_name" id="inquire_name" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input type="email" class="form-control bg-light" placeholder="Client@gmail.com" name="inquire_email" id="inquire_email" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                            <textarea class="form-control bg-light" placeholder="Your Message Here..." name="inquire_message" id="inquire_message" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn w-100 fw-medium text-light" style="background-color: #0f2573;">
+                            <i class="bi bi-send me-2"></i>Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <script>
