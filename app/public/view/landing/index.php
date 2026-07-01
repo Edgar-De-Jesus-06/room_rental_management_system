@@ -244,6 +244,24 @@
 
     </main>
 
+    <footer>
+        <div class="container-fluid border p-4">
+            <div class="container d-flex align-content-center justify-content-between">
+                <div class="container">
+                    <h1 class="text-dark fs-6 fw-bold">
+                        <i class="bi bi-building rounded-3 p-1 me-1 text-light" style="background-color: #0f2573;"></i>
+                        Room Rental
+                    </h1>
+                </div>
+                <div class="container">
+                    <p class="text-secondary fs-6 fw-light">
+                        © 2026 Juan Dela Cruz · Room Rental Management System
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
 
         $(document).ready(function() {
