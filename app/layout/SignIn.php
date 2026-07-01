@@ -13,8 +13,8 @@
       </div>
       <div class="modal-body p-4">
         <div class="container d-flex mb-2 p-0">
-          <button type="button" class="btn fw-medium d-inline w-50 me-2" id="tenant_sign_in">Tenant Sign In</button>
-          <button type="button" class="btn fw-medium d-inline w-50" id="admin_sign_in">Admin Sign In</button>
+          <button type="button" class="btn fw-medium d-inline w-50 me-2" id="tenant_sign_in">Tenant</button>
+          <button type="button" class="btn fw-medium d-inline w-50" id="admin_sign_in">Admin</button>
         </div>
 
         <div class="container" id="default_form">
