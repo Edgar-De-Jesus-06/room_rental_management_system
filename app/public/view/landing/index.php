@@ -87,11 +87,32 @@
                     <button type="button" class="btn btn-success fw-medium text-light rounded-4" style="width: 170px; height: 45px;" data-bs-toggle="modal" data-bs-target="#signIn">
                         Tenant Sign In<i class="bi bi-arrow-right ms-2"></i>
                     </button>
-                    
                 </div>
-                
-                <div class="container-fluid">
-
+            </div>
+            <div class="container-fluid mt-5 d-flex align-content-center justify-content-between">
+                <div class="container p-4 rounded-4 bg-light d-flex flex-column text-center" style="width: 150px;">
+                    <h3 class="fw-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color:#0f2573;">
+                        50
+                    </h3>
+                    <p class="fw-medium fs-6" style="color:#0f2573;">
+                        Total Rooms
+                    </p>
+                </div>
+                <div class="container p-4 rounded-4 bg-light d-flex flex-column text-center" style="width: 150px;">
+                    <h3 class="fw-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color:#0f2573;">
+                        45
+                    </h3>
+                    <p class="fw-medium fs-6" style="color:#0f2573;">
+                        Happy Tenants
+                    </p>
+                </div>
+                <div class="container p-4 rounded-4 bg-light d-flex flex-column text-center" style="width: 150px;">
+                    <h3 class="fw-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color:#0f2573;">
+                        3
+                    </h3>
+                    <p class="fw-medium fs-6" style="color:#0f2573;">
+                        Floors 3
+                    </p>
                 </div>
             </div>
         </div>
