@@ -36,6 +36,7 @@
             }
         }
 
+        // created new method that will return the data of user email
         public function retrieveUsersData() {
             try {
                 $stmt = $this->db->prepare("SELECT full_name, email, password, role
