@@ -36,4 +36,17 @@
             }
         }
 
+        public function retrieveUsersData() {
+            try {
+                $stmt = $this->db->prepare("SELECT full_name, email, password, role
+                                            FROM users
+                                            WHERE email = ?");
+                $stmt->execute([$this->email]);
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+
+            } catch(PDOException $error) {
+                echo "Invalid to retrieve the data: " . $error->getMessage();
+            }
+        }
+
     }
