@@ -303,13 +303,23 @@
             $('#sign_in').on('click', function(e) {
                 e.preventDefault();
 
-                let form_validate = {
+                let tenant_form_validate = {
                     'sign_in': true,
                     'client_email': $('#client_email').val(),
                     'client_password': $('#client_password').val(),
                 }
+                let admin_form_validate = {
+                    'sign_in': true,
+                    'admin_email': $('#admin_email').val(),
+                    'admin_password': $('#admin_password').val()
+                }
                 
-                if(form_validate.client_email == '' || form_validate.client_password == '') {
+                if(tenant_form_validate.client_email == '' || tenant_form_validate.client_password == '') {
+                    $('.error_sign_in_message').html(`<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                        <strong>Empty Field</strong> You should check in on some of those fields below.
+                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                        </div>`);
+                } else if(admin_form_validate.admin_email == '' || admin_form_validate.admin_password == '') {
                     $('.error_sign_in_message').html(`<div class="alert alert-warning alert-dismissible fade show" role="alert">
                                                         <strong>Empty Field</strong> You should check in on some of those fields below.
                                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
