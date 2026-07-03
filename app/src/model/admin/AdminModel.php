@@ -37,12 +37,12 @@
         }
 
         // created new method that will return the data of user email
-        public function retrieveUsersData() {
+        public function retrieveUsersData(string $admin_email) {
             try {
                 $stmt = $this->db->prepare("SELECT full_name, email, password, role
                                             FROM users
                                             WHERE email = ?");
-                $stmt->execute([$this->email]);
+                $stmt->execute([$admin_email]);
                 return $stmt->fetch(PDO::FETCH_ASSOC);
 
             } catch(PDOException $error) {
