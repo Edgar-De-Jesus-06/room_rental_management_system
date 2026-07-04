@@ -23,6 +23,7 @@
             $this->db = (new Database)->db_connection();
         }
 
+        // added a method function to create room and then inject into database
         public function createNewRoom() {
             try {
                 $stmt = $this->db->prepare("INSERT INTO rooms
@@ -41,4 +42,17 @@
             }
 
         }
+
+        public function returnRoomsData() {
+
+        }
+
+        public function updateRoomsData() {
+
+        }
+
+        public function delRoomsData() {
+
+        }
+        
     }
