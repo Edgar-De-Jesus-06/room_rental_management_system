@@ -76,8 +76,17 @@
             }
         }
 
-        public function delRoomsData() {
-
+        // this method will delete the current id data
+        public function delRoomsData(int $id) {
+            try {
+                $stmt = $this->db->prepare("DELETE
+                                            FROM rooms
+                                            WHERE id = ?");
+                return $stmt->execute([$id]);
+            
+            } catch(PDOException $error) {
+                echo "Invalid, cannot update the data: " . $error->getMessage();
+            }
         }
 
     }
