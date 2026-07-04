@@ -56,8 +56,24 @@
             }
         }
 
-        public function updateRoomsData() {
-
+        // this method will update the room data of id on database
+        public function updateRoomsData(int $id) {
+            try {
+                $stmt = $this->db->prepare("UPDATE rooms
+                                            SET (room_number = ?), (type = ?), (floor = ?), (price = ?), (status = ?)
+                                            WHERE id = ?");
+                return $stmt->execute([
+                                        $this->room_no,
+                                        $this->type,
+                                        $this->floor,
+                                        $this->price,
+                                        $this->status,
+                                        $id
+                                    ]);
+            
+            } catch(PDOException $error) {
+                echo "Invalid, cannot update the data: " . $error->getMessage();
+            }
         }
 
         public function delRoomsData() {
