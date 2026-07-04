@@ -43,8 +43,17 @@
 
         }
 
+        // add a logic to return the data of all rooms
         public function returnRoomsData() {
+            try {
+                $stmt = $this->db->prepare("SELECT room_number, floor, type, price, status
+                                            FROM rooms");
+                $stmt->execute();
+                return $stmt->fetchAll();
 
+            } catch(PDOException $error) {
+                echo "There's an error that cannot return the data: " . $error->getMessage();
+            }
         }
 
         public function updateRoomsData() {
@@ -54,5 +63,5 @@
         public function delRoomsData() {
 
         }
-        
+
     }
