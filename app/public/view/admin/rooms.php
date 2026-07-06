@@ -15,6 +15,7 @@ session_start();
     <link rel="stylesheet" href="../../../assets/style/navigation.css">
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <title>Room Rental Management System</title>
 </head>
@@ -29,6 +30,7 @@ session_start();
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-3">
+                    <div class="error_sign_in_message"></div>
                     <div class="container p-0">
                         <div class="container p-0 m-0">
                             <label for="room_num" class="form-label fw-medium text-secondary">Room Number</label>
@@ -43,9 +45,9 @@ session_start();
                                 <div class="input-group">
                                     <span class="input-group-text bg-light text-secondary"><i class="bi bi-tag"></i></span>
                                     <select name="type" id="type" class="form-select bg-light fw-medium">
-                                        <option value="solo" selected>Solo</option>
-                                        <option value="duo">Duo</option>
-                                        <option value="studio">Studio</option>
+                                        <option value="Solo" selected>Solo</option>
+                                        <option value="Duo">Duo</option>
+                                        <option value="Studio">Studio</option>
                                     </select>
                                 </div>
                             </div>
@@ -65,16 +67,16 @@ session_start();
                             </div>
                         </div>
                         <div class="container p-0 mb-2">
-                                <label for="status" class="form-label fw-medium text-secondary">Status</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-secondary"><i class="bi bi-tag"></i></span>
-                                    <select name="status" id="status" class="form-select bg-light fw-medium">
-                                        <option value="available" selected>Available</option>
-                                        <option value="occupied">Occupied</option>
-                                        <option value="maintenance">Maintenance</option>
-                                    </select>
-                                </div>
+                            <label for="status" class="form-label fw-medium text-secondary">Status</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light text-secondary"><i class="bi bi-tag"></i></span>
+                                <select name="status" id="status" class="form-select bg-light fw-medium">
+                                    <option value="Available" selected>Available</option>
+                                    <option value="Occupied">Occupied</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                </select>
                             </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -104,20 +106,153 @@ session_start();
                             <span class="input-group-text bg-white text-secondary"><i class="bi bi-search"></i></span>
                             <input type="search" class="form-control bg-white" placeholder="Search rooms..." name="search_rooms" id="search_rooms">
                         </div>
-                        <a href="#" class="nav-link fw-medium border rounded-3 p-2 ms-3">All</a>
-                        <a href="#" class="nav-link fw-medium border rounded-3 p-2 ms-3">Occupied</a>
-                        <a href="#" class="nav-link fw-medium border rounded-3 p-2 ms-3">Available</a>
-                        <a href="#" class="nav-link fw-medium border rounded-3 p-2 ms-3">Maintenance</a>
+                        <select name="filter_status" name="filter_status" id="filter_status" class="form-select ms-3" style="width: 145px;">
+                            <option value="Available" selected>Available</option>
+                            <option value="Occupied">Occupied</option>
+                            <option value="Maintenance">Maintenance</option>
+                        </select>
+                        <button type="submit" class="btn fw-medium text-light ms-3" style="background-color: #0f2573; width: 145px;" name="filter_btn" id="filter_btn">
+                            <i class="bi bi-funnel me-2"></i>Filter
+                        </button>
                     </div>
-                    <button class="btn fw-medium text-light" style="background-color: #0f2573; width: 150px;" data-bs-toggle="modal" data-bs-target="#room_btn">
+                    <button type="button" class="btn fw-medium text-light" style="background-color: #0f2573; width: 150px;" data-bs-toggle="modal" data-bs-target="#room_btn">
                         <i class="bi bi-plus-lg me-2"></i>Add Room
                     </button>
+                </div>
+
+                <div class="container p-4 m-0 mw-100">
+                    <table class="table border">
+                        <thead>
+                            <th class="fw-medium text-secondary">Room No.</th>
+                            <th class="fw-medium text-secondary">Floor</th>
+                            <th class="fw-medium text-secondary">Type</th>
+                            <th class="fw-medium text-secondary">Monthly Rent</th>
+                            <th class="fw-medium text-secondary">Status</th>
+                            <th class="fw-medium text-secondary">Current Tenant</th>
+                            <th class="fw-medium text-secondary">Actions</th>
+                        </thead>
+                        <tbody id="room_data">
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
     </main>
 
+    <script>
+        $(document).ready(function() {
+
+            roomTableData()
+            filterTableData();
+            add_room()
+
+        })
+
+        function filterTableData() {
+
+            $('#filter_btn').click(function(e) {
+                e.preventDefault();
+
+                const filter_status = $('#filter_status').val()
+
+                $.ajax({
+                    method: 'GET',
+                    url: '../../../src/controller/api/admin/Room.php',
+                    data: {filter_status : filter_status},
+                    dataType: "json",
+                    success: function(res) {
+                        $('#room_data').empty()
+                        $.each(res.data, function(key, val) {
+                            $('#room_data').append(`<tr>\
+                                                    <th class="fw-medium" style="color: #0f2573;">${val[1]}</th>\
+                                                    <td class="fw-medium text-secondary">${val[2]}</td>\
+                                                    <td class="fw-medium text-secondary">${val[3]}</td>\
+                                                    <td class="fw-medium" style="color: #0f2573;">₱${val[4]}</td>\
+                                                    <td><p class="m-0 rounded-4 ${val[5] == 'Available' ? "text-success bg-success-subtle border border-success-subtle" :
+                                                                                  val[5] == 'Occupied' ? 'text-primary bg-primary-subtle border border-primary-subtle'  :
+                                                                                  val[5] == 'Maintenance' ? 'text-warning bg-warning-subtle border border-warning-subtle':
+                                                                                  ""} 
+                                                                                  text-center" style="width: 100px;">${val[5]}</p></td>\
+                                                    <td >@social</td>\
+                                                    <td class="p-0"  style="font-family:monospace;">
+                                                        <a href="./rooms.php?upd=${val[0]}" class="nav-link d-inline text-secondary" title="Edit" id="edit_room">
+                                                        <i class="bi bi-pencil-square me-1"></i>
+                                                        Edit
+                                                        </a>
+                                                        <a href="./rooms.php?del=${val[0]}" class="nav-link d-inline text-danger ms-3" title="Delete" id="del_room">
+                                                        <i class="bi bi-trash me-1"></i>
+                                                        Delete
+                                                        </a>
+                                                    </td>\
+                                                </tr>`)
+                        })
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status)
+                        if (xhr.status == 404) {
+                            $('#room_data').html(`<tr>\
+                                                <th colspan="7" class="fw-medium text-center text-secondary"><i class="bi bi-exclamation-circle me-2 text-warning"></i>No Available Room Yet</th>\
+                                              </tr>`);
+                        }
+                    }
+                })
+            })
+
+        }
+
+        function add_room() {
+            $('#add_room').on('click', function(e) {
+                e.preventDefault();
+
+                const form = {
+                    'add_room': true,
+                    'room_num': $('#room_num').val(),
+                    'type': $('#type').val(),
+                    'floor': $('#floor').val(),
+                    'rent_price': $('#rent_price').val(),
+                    'status': $('#status').val()
+                };
+
+                if (form.room_num == '' || form.type == '' || form.floor == null || form.rent_price == null || form.status == '') {
+                    $('.error_sign_in_message').html(`<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                        <strong>Empty Field</strong> You should check in on some of those fields below.
+                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                        </div>`)
+                } else {
+                    $.ajax({
+                        method: "POST",
+                        url: "../../../src/controller/api/admin/Room.php",
+                        data: form,
+                        success: function(res) {
+                            $('#room_btn').modal('hide');
+                            Swal.fire({
+                                title: "Success!",
+                                text: res.message,
+                                icon: "success"
+                            });
+                            $('#room_data').html('')
+                            $('#room_num').val('')
+                            $('#type').val('')
+                            $('#floor').val('')
+                            $('#rent_price').val('')
+                            $('#status').val('')
+                            roomTableData()
+                        },
+                        error: function(xhr) {
+                            if (xhr.status == 409) {
+                                $('.error_sign_in_message').html(`<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                        <strong>Room No.</strong> is already exist
+                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                        </div>`)
+                            }
+                        }
+                    })
+                }
+            })
+        }
+    </script>
 </body>
 
 </html>
