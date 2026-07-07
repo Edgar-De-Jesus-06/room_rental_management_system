@@ -150,6 +150,49 @@ session_start();
 
         })
 
+        function roomTableData() {
+            $.ajax({
+                    method: 'GET',
+                    url: '../../../src/controller/api/admin/Room.php',
+                    dataType: "json",
+                    success: function(res) {
+                        console.log(res)
+                        $.each(res.data, function(key, val) {
+                            $('#room_data').append(`<tr>\
+                                                    <th class="fw-medium" style="color: #0f2573;">${val[1]}</th>\
+                                                    <td class="fw-medium text-secondary">${val[2]}</td>\
+                                                    <td class="fw-medium text-secondary">${val[3]}</td>\
+                                                    <td class="fw-medium" style="color: #0f2573;">₱${val[4]}</td>\
+                                                    <td><p class="m-0 rounded-4 ${val[5] == 'Available' ? "text-success bg-success-subtle border border-success-subtle" :
+                                                                                  val[5] == 'Occupied' ? 'text-primary bg-primary-subtle border border-primary-subtle'  :
+                                                                                  val[5] == 'Maintenance' ? 'text-warning bg-warning-subtle border border-warning-subtle':
+                                                                                  ""} 
+                                                                                  text-center" style="width: 100px;">${val[5]}</p></td>\
+                                                    <td >@social</td>\
+                                                    <td class="p-0"  style="font-family:monospace;">
+                                                        <a href="./rooms.php?upd=${val[0]}" class="nav-link d-inline text-secondary" title="Edit" id="edit_room">
+                                                        <i class="bi bi-pencil-square me-1"></i>
+                                                        Edit
+                                                        </a>
+                                                        <a href="./rooms.php?del=${val[0]}" class="nav-link d-inline text-danger ms-3" title="Delete" id="del_room">
+                                                        <i class="bi bi-trash me-1"></i>
+                                                        Delete
+                                                        </a>
+                                                    </td>\
+                                                </tr>`)
+                        })
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status)
+                        if(xhr.status == 404) {
+                            $('#room_data').html(`<tr>\
+                                                <th colspan="7" class="fw-medium text-center text-secondary"><i class="bi bi-exclamation-circle me-2 text-warning"></i>No Filter Found</th>\
+                                              </tr>`);
+                        }
+                    }
+                })
+        }
+
         function filterTableData() {
 
             $('#filter_btn').click(function(e) {
