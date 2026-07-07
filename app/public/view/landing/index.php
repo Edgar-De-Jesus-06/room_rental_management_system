@@ -329,7 +329,36 @@
                 }
             })
 
+            signIn()
+
         })
+
+        function signIn() {
+
+            $('#sign_in').on('click', function(e) {
+                e.preventDefault();
+
+                let admin_form_validate = {
+                    'sign_in': true,
+                    'admin_email': $('#admin_email').val(),
+                    'admin_password': $('#admin_password').val()
+                }
+
+                
+
+                $.ajax({
+                    method: "POST",
+                    url: "../../../src/controller/api/admin/SignIn.php",
+                    data: admin_form_validate,
+                    success: function(res) {
+                        if(res.status == 200) {
+                            window.location.href = "../admin/dashboard.php";
+                        }
+                    }
+                })
+            })
+
+        }
         
     </script>
 </body>
