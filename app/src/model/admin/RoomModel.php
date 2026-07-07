@@ -30,7 +30,7 @@
                                             (room_number, floor, type, price, status)
                                             VALUES
                                             (:room_number, :floor, :type, :price, :status)");
-                $stmt->bindValue(':room_number', $this->room_no, PDO::PARAM_INT);
+                $stmt->bindValue(':room_number', $this->room_no, PDO::PARAM_STR);
                 $stmt->bindValue(':floor', $this->floor, PDO::PARAM_INT);
                 $stmt->bindValue(':type', $this->type, PDO::PARAM_STR);
                 $stmt->bindValue(':price', $this->price, PDO::PARAM_INT);
@@ -46,14 +46,46 @@
         // add a logic to return the data of all rooms
         public function returnRoomsData() {
             try {
-                $stmt = $this->db->prepare("SELECT room_number, floor, type, price, status
-                                            FROM rooms");
+                $stmt = $this->db->prepare("SELECT id, room_number, floor, type, price, status
+                                            FROM rooms
+                                            LIMIT 14");
                 $stmt->execute();
                 return $stmt->fetchAll();
 
             } catch(PDOException $error) {
                 echo "There's an error that cannot return the data: " . $error->getMessage();
             }
+        }
+
+        public function filterRoomsData(string $filter_status) {
+            try {
+                $stmt = $this->db->prepare("SELECT id, room_number, floor, type, price, status
+                                            FROM rooms
+                                            WHERE status = ?
+                                            LIMIT 14");
+                $stmt->execute([$filter_status]);
+                return $stmt->fetchAll();
+
+            } catch(PDOException $error) {
+                echo "There's an error that cannot return the data: " . $error->getMessage();
+            }
+        }
+
+        public function countNumberOfColumns() {
+            
+            try {
+                $stmt = $this->db->prepare("SELECT COUNT(*)
+                                            FROM rooms
+                                            WHERE room_number = :room_number");
+                $stmt->bindValue(':room_number', $this->room_no, PDO::PARAM_STR);
+                $stmt->execute();
+                return $stmt->fetchColumn();
+
+
+            } catch(PDOException $error) {
+                echo $error->getMessage();
+            }
+
         }
 
         // this method will update the room data of id on database
