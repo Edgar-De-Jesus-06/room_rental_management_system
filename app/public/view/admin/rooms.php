@@ -86,6 +86,70 @@
         </div>
     </div>
 
+    <div class="modal fade" id="edit_btn" tabindex="-1" aria-labelledby="edit_btn" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header p-3">
+                    <h1 class="modal-title fs-6 fw-bold" id="modalTitle">Edit Room</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3">
+                    <div class="error_sign_in_message"></div>
+                    <div class="container p-0">
+                        <div class="container p-0 m-0">
+                            <label for="edit_room_num" class="form-label fw-medium text-secondary">Room Number</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text bg-light text-secondary"><i class="bi bi-123"></i></span>
+                                <input type="text" class="form-control bg-light" placeholder="e.g 201" name="edit_room_num" id="edit_room_num" required>
+                            </div>
+                        </div>
+                        <div class="container p-0 mb-2 d-flex align-content-center justify-content-between">
+                            <div class="container p-0 me-3">
+                                <label for="edit_type" class="form-label fw-medium text-secondary">Type</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-secondary"><i class="bi bi-tag"></i></span>
+                                    <select name="edit_type" id="edit_type" class="form-select bg-light fw-medium">
+                                        <option value="Solo" selected>Solo</option>
+                                        <option value="Duo">Duo</option>
+                                        <option value="Studio">Studio</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="container p-0 me-3">
+                                <label for="edit_floor" class="form-label fw-medium text-secondary">Floor</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-secondary"><i class="bi bi-arrow-up-square"></i></span>
+                                    <input type="number" class="form-control bg-light fw-medium text-secondary" min="1" max="5" name="edit_floor" id="edit_floor" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container p-0 mb-2">
+                            <label for="edit_rent_price" class="form-label fw-medium text-secondary">Monthly Price (₱)</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text bg-light text-secondary"><i class="bi bi-currency-exchange"></i></span>
+                                <input type="number" class="form-control bg-light" placeholder="e.g 5000" min="1" max="5000" name="edit_rent_price" id="edit_rent_price" required>
+                            </div>
+                        </div>
+                        <div class="container p-0 mb-2">
+                            <label for="edit_status" class="form-label fw-medium text-secondary">Status</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light text-secondary"><i class="bi bi-tag"></i></span>
+                                <select name="edit_status" id="edit_status" class="form-select bg-light fw-medium">
+                                    <option value="Available" selected>Available</option>
+                                    <option value="Occupied">Occupied</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn text-light w-100 fw-medium" style="background-color: #0f2573;" name="save_edit" id="save_edit">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <main>
 
         <div class="container-fluid p-0 m-0 min-vh-100 bg-light d-flex align-content-center justify-content-between">
@@ -171,7 +235,7 @@
                                                                                   text-center" style="width: 100px;">${val[5]}</p></td>\
                                                     <td >@social</td>\
                                                     <td class="p-0"  style="font-family:monospace;">
-                                                        <button type="button" class="btn d-inline text-secondary" value="${val[0]}" name="edit_btn" id="edit_btn">
+                                                        <button type="button" class="btn d-inline text-secondary" value="${val[0]}" name="edit_btn" id="edit_btn" data-bs-target="#edit_btn" data-bs-toggle="modal">
                                                         <i class="bi bi-pencil-square me-1"></i>
                                                         Edit
                                                         </button>
