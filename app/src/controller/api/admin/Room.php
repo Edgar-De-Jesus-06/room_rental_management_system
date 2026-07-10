@@ -80,4 +80,21 @@
         ]);
         exit();
        
+    } elseif($_SERVER['REQUEST_METHOD'] === "POST") {
+        $del_id = $_POST['del_btn'];
+    
+        if(!isset($del_id)) {
+            http_response_code(400);
+            echo json_encode([
+                'message' => 'ID is missing',
+                'status'  => 400
+            ]);
+            exit();
+        }
+
+        http_response_code(204);
+        $room_model->delRoomsData($del_id);
+        exit();
+    } elseif($_SERVER['REQUEST_METHOD'] === "POST") {
+        
     }
