@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+    session_start();
 
 ?>
 
@@ -132,7 +132,7 @@ session_start();
                             <th class="fw-medium text-secondary">Actions</th>
                         </thead>
                         <tbody id="room_data">
-
+                            
                         </tbody>
                     </table>
                 </div>
@@ -146,7 +146,8 @@ session_start();
 
             roomTableData()
             filterTableData();
-            add_room()
+            add_room() 
+            del_room_data()
 
         })
 
@@ -170,14 +171,14 @@ session_start();
                                                                                   text-center" style="width: 100px;">${val[5]}</p></td>\
                                                     <td >@social</td>\
                                                     <td class="p-0"  style="font-family:monospace;">
-                                                        <a href="./rooms.php?upd=${val[0]}" class="nav-link d-inline text-secondary" title="Edit" id="edit_room">
+                                                        <button type="button" class="btn d-inline text-secondary" value="${val[0]}" name="edit_btn" id="edit_btn">
                                                         <i class="bi bi-pencil-square me-1"></i>
                                                         Edit
-                                                        </a>
-                                                        <a href="./rooms.php?del=${val[0]}" class="nav-link d-inline text-danger ms-3" title="Delete" id="del_room">
+                                                        </button>
+                                                        <button type="button" class="btn d-inline text-danger" value="${val[0]}" name="del_btn" id="del_btn">
                                                         <i class="bi bi-trash me-1"></i>
                                                         Delete
-                                                        </a>
+                                                        </button>
                                                     </td>\
                                                 </tr>`)
                         })
@@ -220,14 +221,14 @@ session_start();
                                                                                   text-center" style="width: 100px;">${val[5]}</p></td>\
                                                     <td >@social</td>\
                                                     <td class="p-0"  style="font-family:monospace;">
-                                                        <a href="./rooms.php?upd=${val[0]}" class="nav-link d-inline text-secondary" title="Edit" id="edit_room">
+                                                        <a href="./rooms.php?upd=${val[0]}" class="nav-link d-inline text-secondary" title="Edit" name="edit_room" id="edit_room">
                                                         <i class="bi bi-pencil-square me-1"></i>
                                                         Edit
                                                         </a>
-                                                        <a href="./rooms.php?del=${val[0]}" class="nav-link d-inline text-danger ms-3" title="Delete" id="del_room">
+                                                        <button type="button" class="btn d-inline text-danger" value="${val[0]}" name="del_btn" id="del_btn">
                                                         <i class="bi bi-trash me-1"></i>
                                                         Delete
-                                                        </a>
+                                                        </button>
                                                     </td>\
                                                 </tr>`)
                         })
@@ -294,6 +295,49 @@ session_start();
                     })
                 }
             })
+        }
+
+        function del_room_data() {
+
+            $(document).on('click', '#del_btn', function(e) {
+                e.preventDefault();
+
+                
+
+                const room_id = {
+                    'del_btn' : true,
+                    'del_btn' : $(this).val()
+                };
+                console.log(room_id)
+
+                Swal.fire({
+                    title               : "Are you sure?",
+                    text                : "You won't be able to revert this!",
+                    icon                : "warning",
+                    showCancelButton    : true,
+                    confirmButtonColor  : "#3085d6",
+                    cancelButtonText    : "Cancel",
+                    confirmButtonText   : "Yes, delete it!",     
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        $.ajax({
+                            method  : "POST", 
+                            url     : "../../../src/controller/api/admin/Room.php",
+                            data    : room_id,
+                            success : function(response) {
+                                $('#room_data').html('');
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "Your file has been deleted.",
+                                    icon: "success"
+                                })
+                                roomTableData();
+                            }
+                        })
+                    }
+                })
+            })
+
         }
     </script>
 </body>
