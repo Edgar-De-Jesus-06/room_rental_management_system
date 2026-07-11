@@ -88,6 +88,21 @@
 
         }
 
+        public function returnSelectedData(int $id) {
+
+            try {
+                $stmt = $this->db->prepare("SELECT room_number, floor, type, price, status
+                                            FROM rooms
+                                            WHERE id = ?");
+                $stmt->execute([$id]);
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+
+            } catch(PDOException $e) {
+                echo $e->getMessage();
+            }
+
+        }
+
         // this method will update the room data of id on database
         public function updateRoomsData(int $id) {
             try {
