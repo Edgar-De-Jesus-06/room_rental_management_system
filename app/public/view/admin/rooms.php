@@ -94,7 +94,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-3">
-                    <div class="error_sign_in_message"></div>
+                    <div class="edit_error_message"></div>
                     <div class="container p-0"  id="id_room_data">
                         
                     </div>
@@ -375,7 +375,7 @@
                     success: function(response) {
                         const parse = JSON.stringify(response.data);
                         const result = JSON.parse(parse);
-                        console.log(result)
+    
                         $('#id_room_data').html(`<div class="container p-0 m-0">
                                                     <label for="edit_room_num" class="form-label fw-medium text-secondary">Room Number</label>
                                                     <div class="input-group mb-2">
@@ -417,7 +417,7 @@
                                                         <span class="input-group-text bg-light text-secondary"><i class="bi bi-tag"></i></span>
                                                         <select name="edit_status" id="edit_status" class="form-select bg-light fw-medium">
                                                             <option value="${result.status}">Selected: ${result.status}</option>
-                                                            <option value="Available">Solo</option>
+                                                            <option value="Available">Available</option>
                                                             <option value="Occupied">Occupied</option>
                                                             <option value="Maintenance">Maintenance</option>
                                                         </select>
@@ -431,7 +431,49 @@
             $('#save_edit').click(function(e) {
                 e.preventDefault();
 
-                
+                const validate_form = {
+                    'save_edit'       : true,
+                    'id'              : $('#edit_id_data').val(),
+                    'edit_room_num'   : $('#edit_room_num').val(),
+                    'edit_type'       : $('#edit_type').val(),
+                    'edit_floor'      : $('#edit_floor').val(),
+                    'edit_rent_price' : $('#edit_rent_price').val(),
+                    'edit_status'     : $('#edit_status').val()
+                }
+
+                if(validate_form.edit_room_num == '' || validate_form.edit_type == '' || validate_form.edit_floor == null || validate_form.edit_rent_price == null || validate_form.edit_status == '') {
+                    $('.edit_error_message').html(`<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                        <strong>Empty Field</strong> You should check in on some of those fields below.
+                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                        </div>`)
+                } else {
+                    
+                    $.ajax({
+                        method : "POST",
+                        url : "../../../src/controller/api/admin/EditRoom.php",
+                        data: validate_form,
+                        success : function(response) {
+                            $('#edit_btn').modal('hide')
+                            $('#room_data').html('');
+                            Swal.fire({
+                                title: 'Updated Successfully!',
+                                text: response.message,
+                                icon: 'success',
+                            })
+                            roomTableData()
+                        },
+                        error: function(xhr, error, status) {
+                            if(xhr.status == 404) {
+                                Swal.fire({
+                                    title: 'ID is Missing.',
+                                    text: '',
+                                    icon: 'error',
+                                })
+                            }
+                        }
+                    })
+
+                }
             })
         }
     </script>
