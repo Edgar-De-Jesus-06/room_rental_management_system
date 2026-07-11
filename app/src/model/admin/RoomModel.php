@@ -107,7 +107,7 @@
         public function updateRoomsData(int $id) {
             try {
                 $stmt = $this->db->prepare("UPDATE rooms
-                                            SET (room_number = ?), (type = ?), (floor = ?), (price = ?), (status = ?)
+                                            SET room_number = ?, type = ?, floor = ?, price = ?, status = ?
                                             WHERE id = ?");
                 return $stmt->execute([
                                         $this->room_no,
