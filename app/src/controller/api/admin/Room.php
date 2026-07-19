@@ -95,6 +95,4 @@
         http_response_code(204);
         $room_model->delRoomsData($del_id);
         exit();
-    } elseif($_SERVER['REQUEST_METHOD'] === "POST") {
-        
     }
