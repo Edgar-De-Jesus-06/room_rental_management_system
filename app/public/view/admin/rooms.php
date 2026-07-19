@@ -1,6 +1,6 @@
 <?php
 
-    session_start();
+session_start();
 
 ?>
 
@@ -95,8 +95,8 @@
                 </div>
                 <div class="modal-body p-3">
                     <div class="edit_error_message"></div>
-                    <div class="container p-0"  id="id_room_data">
-                        
+                    <div class="container p-0" id="id_room_data">
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -152,7 +152,7 @@
                             <th class="fw-medium text-secondary">Actions</th>
                         </thead>
                         <tbody id="room_data">
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -170,16 +170,69 @@
             del_room_data();
             edit_room_data();
 
+            $('#search_rooms').keyup(function(e) {
+                e.preventDefault();
+
+                const search_room = {
+                    'search_rooms': $(this).val()
+                }
+
+                if (search_room.search_rooms === '') {
+                    roomTableData()
+                } else {
+                    $.ajax({
+                        url: "../../../src/controller/api/admin/SearchRooms.php",
+                        method: "GET",
+                        data: search_room,
+                        dataType: "json",
+                        success: function(response) {
+                            $.each(response.data, function(index, val) {
+                                $("#room_data").html(`<tr>\
+                                                <th class="fw-medium" style="color: #0f2573;">${val['room_number']}</th>\
+                                                <td class="fw-medium text-secondary">${val['floor']}</td>\
+                                                <td class="fw-medium text-secondary">${val['type']}</td>\
+                                                <td class="fw-medium" style="color: #0f2573;">₱${val['price']}</td>\
+                                                <td><p class="m-0 rounded-4 ${val['status'] == 'Available' ? "text-success bg-success-subtle border border-success-subtle" :
+                                                                                val['status'] == 'Occupied' ? 'text-primary bg-primary-subtle border border-primary-subtle'  :
+                                                                                val['status'] == 'Maintenance' ? 'text-warning bg-warning-subtle border border-warning-subtle':
+                                                                                ""} 
+                                                                                text-center" style="width: 100px;">${val['status']}</p></td>\
+                                                <td >@social</td>\
+                                                <td class="p-0"  style="font-family:monospace;">
+                                                    <button type="button" class="btn d-inline text-secondary edit_id_data" value="${val['id']}" data-bs-target="#edit_btn" data-bs-toggle="modal">
+                                                    <i class="bi bi-pencil-square me-1"></i>
+                                                    Edit
+                                                    </button>
+                                                    <button type="button" class="btn d-inline text-danger" value="${val['id']}" name="del_btn" id="del_btn">
+                                                    <i class="bi bi-trash me-1"></i>
+                                                    Delete
+                                                    </button>
+                                                </td>\
+                                            </tr>`);
+                            })
+                        },
+                        error: function(xhr, error, status) {
+                            if (xhr.status == 404) {
+                                $('#room_data').html(`<tr>\
+                                                <th colspan="7" class="fw-medium text-center text-secondary"><i class="bi bi-exclamation-circle me-2 text-warning"></i>No Available Room Yet</th>\
+                                              </tr>`);
+                            }
+                        }
+                    })
+                }
+            })
+
         })
 
         function roomTableData() {
             $.ajax({
-                    method: 'GET',
-                    url: '../../../src/controller/api/admin/Room.php',
-                    dataType: "json",
-                    success: function(res) {
-                        $.each(res.data, function(key, val) {
-                            $('#room_data').append(`<tr>\
+                method: 'GET',
+                url: '../../../src/controller/api/admin/Room.php',
+                dataType: "json",
+                success: function(res) {
+                    $('#room_data').html('');
+                    $.each(res.data, function(key, val) {
+                        $('#room_data').append(`<tr>\
                                                     <th class="fw-medium" style="color: #0f2573;">${val[1]}</th>\
                                                     <td class="fw-medium text-secondary">${val[2]}</td>\
                                                     <td class="fw-medium text-secondary">${val[3]}</td>\
@@ -191,7 +244,7 @@
                                                                                   text-center" style="width: 100px;">${val[5]}</p></td>\
                                                     <td >@social</td>\
                                                     <td class="p-0"  style="font-family:monospace;">
-                                                        <button type="button" class="btn d-inline text-secondary" value="${val[0]}" name="edit_id_data" id="edit_id_data" data-bs-target="#edit_btn" data-bs-toggle="modal">
+                                                        <button type="button" class="btn d-inline text-secondary edit_id_data" value="${val[0]}" data-bs-target="#edit_btn" data-bs-toggle="modal">
                                                         <i class="bi bi-pencil-square me-1"></i>
                                                         Edit
                                                         </button>
@@ -201,17 +254,17 @@
                                                         </button>
                                                     </td>\
                                                 </tr>`)
-                        })
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.status)
-                        if(xhr.status == 404) {
-                            $('#room_data').html(`<tr>\
-                                                <th colspan="7" class="fw-medium text-center text-secondary"><i class="bi bi-exclamation-circle me-2 text-warning"></i>No Filter Found</th>\
+                    })
+                },
+                error: function(xhr) {
+                    console.log(xhr.status)
+                    if (xhr.status == 404) {
+                        $('#room_data').html(`<tr>\
+                                                <th colspan="7" class="fw-medium text-center text-secondary"><i class="bi bi-exclamation-circle me-2 text-warning"></i>No Available Room Yet</th>\
                                               </tr>`);
-                        }
                     }
-                })
+                }
+            })
         }
 
         function filterTableData() {
@@ -224,10 +277,12 @@
                 $.ajax({
                     method: 'GET',
                     url: '../../../src/controller/api/admin/Room.php',
-                    data: {filter_status : filter_status},
+                    data: {
+                        filter_status: filter_status
+                    },
                     dataType: "json",
                     success: function(res) {
-                        $('#room_data').empty()
+                        $('#room_data').html('')
                         $.each(res.data, function(key, val) {
                             $('#room_data').append(`<tr>\
                                                     <th class="fw-medium" style="color: #0f2573;">${val[1]}</th>\
@@ -322,28 +377,28 @@
             $(document).on('click', '#del_btn', function(e) {
                 e.preventDefault();
 
-                
+
 
                 const room_id = {
-                    'del_btn' : true,
-                    'del_btn' : $(this).val()
+                    'del_btn': true,
+                    'del_btn': $(this).val()
                 };
 
                 Swal.fire({
-                    title               : "Are you sure?",
-                    text                : "You won't be able to revert this!",
-                    icon                : "warning",
-                    showCancelButton    : true,
-                    confirmButtonColor  : "#3085d6",
-                    cancelButtonText    : "Cancel",
-                    confirmButtonText   : "Yes, delete it!",     
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonText: "Cancel",
+                    confirmButtonText: "Yes, delete it!",
                 }).then((result) => {
-                    if(result.isConfirmed) {
+                    if (result.isConfirmed) {
                         $.ajax({
-                            method  : "POST", 
-                            url     : "../../../src/controller/api/admin/Room.php",
-                            data    : room_id,
-                            success : function(response) {
+                            method: "POST",
+                            url: "../../../src/controller/api/admin/Room.php",
+                            data: room_id,
+                            success: function(response) {
                                 $('#room_data').html('');
                                 Swal.fire({
                                     title: "Deleted!",
@@ -360,22 +415,20 @@
         }
 
         function edit_room_data() {
-            $(document).on('click', '#edit_id_data', function(e) {
+            $(document).on('click', '.edit_id_data', function(e) {
                 e.preventDefault();
-                
-                const room_id = $(this).val();
 
                 $.ajax({
-                    method : "GET",
-                    url    : "../../../src/controller/api/admin/EditRoom.php",
-                    data   : {
-                        'room_id' : room_id
+                    method: "GET",
+                    url: "../../../src/controller/api/admin/EditRoom.php",
+                    data: {
+                        'room_id': $(this).val()
                     },
                     dataType: "json",
                     success: function(response) {
-                        const parse = JSON.stringify(response.data);
-                        const result = JSON.parse(parse);
-    
+                        const data = JSON.stringify(response.data);
+                        const result = JSON.parse(data);
+
                         $('#id_room_data').html(`<div class="container p-0 m-0">
                                                     <label for="edit_room_num" class="form-label fw-medium text-secondary">Room Number</label>
                                                     <div class="input-group mb-2">
@@ -423,7 +476,6 @@
                                                         </select>
                                                     </div>
                                                 </div>`)
-                        
                     }
                 })
             })
@@ -432,38 +484,39 @@
                 e.preventDefault();
 
                 const validate_form = {
-                    'save_edit'       : true,
-                    'id'              : $('#edit_id_data').val(),
-                    'edit_room_num'   : $('#edit_room_num').val(),
-                    'edit_type'       : $('#edit_type').val(),
-                    'edit_floor'      : $('#edit_floor').val(),
-                    'edit_rent_price' : $('#edit_rent_price').val(),
-                    'edit_status'     : $('#edit_status').val()
+                    'save_edit': true,
+                    'id': $('.edit_id_data').val(),
+                    'edit_room_num': $('#edit_room_num').val(),
+                    'edit_floor': $('#edit_floor').val(),
+                    'edit_type': $('#edit_type').val(),
+                    'edit_rent_price': $('#edit_rent_price').val(),
+                    'edit_status': $('#edit_status').val()
                 }
 
-                if(validate_form.edit_room_num == '' || validate_form.edit_type == '' || validate_form.edit_floor == null || validate_form.edit_rent_price == null || validate_form.edit_status == '') {
+                if (validate_form.edit_room_num == '' || validate_form.edit_type == '' || validate_form.edit_floor == null || validate_form.edit_rent_price == null || validate_form.edit_status == '') {
                     $('.edit_error_message').html(`<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                                        <strong>Empty Field</strong> You should check in on some of those fields below.
-                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                        </div>`)
+                                                            <strong>Empty Field</strong> You should check in on some of those fields below.
+                                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                            </div>`)
                 } else {
-                    
+
                     $.ajax({
-                        method : "POST",
-                        url : "../../../src/controller/api/admin/EditRoom.php",
-                        data: validate_form,
-                        success : function(response) {
-                            $('#edit_btn').modal('hide')
+                        method: "PATCH",
+                        url: "../../../src/controller/api/admin/EditRoom.php",
+                        contentType: "application/json",
+                        data: JSON.stringify(validate_form),
+                        success: function(response) {
+                            $('#edit_btn').modal('hide');
                             $('#room_data').html('');
                             Swal.fire({
                                 title: 'Updated Successfully!',
-                                text: response.message,
+                                text: 'Updated',
                                 icon: 'success',
-                            })
+                            });
                             roomTableData()
                         },
                         error: function(xhr, error, status) {
-                            if(xhr.status == 404) {
+                            if (xhr.status == 404) {
                                 Swal.fire({
                                     title: 'ID is Missing.',
                                     text: '',
