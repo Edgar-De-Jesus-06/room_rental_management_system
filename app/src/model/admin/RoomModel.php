@@ -103,24 +103,42 @@
 
         }
 
-        // this method will update the room data of id on database
-        public function updateRoomsData(int $id) {
+        public function searchRoomNumber(string $search) {
             try {
-                $stmt = $this->db->prepare("UPDATE rooms
-                                            SET room_number = ?, type = ?, floor = ?, price = ?, status = ?
-                                            WHERE id = ?");
-                return $stmt->execute([
-                                        $this->room_no,
-                                        $this->type,
-                                        $this->floor,
-                                        $this->price,
-                                        $this->status,
-                                        $id
-                                    ]);
-            
-            } catch(PDOException $error) {
-                echo "Invalid, cannot update the data: " . $error->getMessage();
+                $stmt = $this->db->prepare("SELECT id, room_number, floor, type, price, status
+                                            FROM rooms
+                                            WHERE room_number LIKE ?");
+                $stmt->execute(["%$search%"]);
+                $room = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                if(empty($room)) {
+                    throw new PDOException("No data has been found.");
+                }
+                return $room;
+                
+            } catch(PDOException $e) {
+                echo $e->getMessage();
             }
+        }
+
+        // this method will update the room data of id on database
+        public function updateRoomsData(int $id): bool {
+            $stmt = $this->db->prepare("UPDATE rooms
+                                        SET room_number = :room_number, type = :type, floor = :floor, price = :price, status = :status
+                                        WHERE id = :id");
+            $stmt->bindValue(':room_number', $this->room_no, PDO::PARAM_STR);
+            $stmt->bindValue(':type', $this->type, PDO::PARAM_STR);
+            $stmt->bindValue(':floor', $this->floor, PDO::PARAM_INT);
+            $stmt->bindValue(':price', $this->price, PDO::PARAM_INT);
+            $stmt->bindValue(':status', $this->status, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            if($stmt->execute() === true) {
+                return true;
+            } else {
+                throw new PDOException("Invalid to update");
+            }
+            
         }
 
         // this method will delete the current id data
